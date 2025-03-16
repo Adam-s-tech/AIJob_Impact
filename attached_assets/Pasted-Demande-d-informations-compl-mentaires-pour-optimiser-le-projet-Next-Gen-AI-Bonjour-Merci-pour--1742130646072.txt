@@ -1,0 +1,22 @@
+Demande d’informations complémentaires pour optimiser le projet "Next Gen AI"
+
+Bonjour,
+
+Merci pour l’analyse détaillée du projet ! L’application web "Next Gen AI" semble bien avancée avec une architecture solide et des fonctionnalités pertinentes. Pour optimiser davantage le développement et anticiper les prochaines étapes, pourriez-vous me fournir les informations suivantes :
+
+Performance et évolutivité :
+Actuellement, les données sont stockées dans une base de mémoire (MemStorage) avec 10 métiers. Quelles sont les limites actuelles de cette solution en termes de nombre de métiers ou de volume de données ? Si je souhaite ajouter les 100 métiers mentionnés précédemment, recommandez-vous une migration vers une base de données persistante (par exemple, PostgreSQL ou MongoDB) ?
+Avez-vous mesuré les temps de réponse des API (GET /api/jobs, GET /api/jobs/search) avec les filtres actuels ? Si oui, quelles sont les performances, et pensez-vous qu’une mise en cache (par exemple, avec Redis) serait bénéfique ?
+Expérience utilisateur (UI/UX) :
+Les filtres (mot-clé, niveau d’impact, domaine) fonctionnent-ils de manière fluide ? Y a-t-il des cas où les résultats ne s’affichent pas correctement ou où les performances ralentissent avec plusieurs filtres combinés ?
+Les images illustratives pour chaque métier sont-elles optimisées (par exemple, compressées ou en format WebP) pour éviter des temps de chargement longs, surtout si le site est destiné à un public large ?
+Données et contenu :
+Les 10 métiers actuels sont-ils un sous-ensemble des 100 métiers prévus à partir de "theresanaiforthat.com/job-impact/" ? Si oui, pouvez-vous confirmer que les tâches et outils IA associés sont déjà structurés dans MemStorage pour ces 10 métiers ?
+Les domaines prédéfinis (Tech, Santé, Finance, Marketing, etc.) sont-ils suffisants pour couvrir tous les métiers envisagés, ou faudrait-il en ajouter (par exemple, Éducation, Industrie) ?
+Sécurité et accessibilité :
+Les API sont-elles sécurisées (par exemple, avec des en-têtes CORS ou une authentification de base) pour éviter les accès non autorisés ou les abus ?
+Le site est-il accessible (conformité WCAG) pour les utilisateurs ayant des handicaps visuels ou auditifs, notamment avec les images et les filtres ?
+Prochaines étapes :
+Avec les améliorations prévues (filtres avancés, espace personnel, communauté et partage), quelles modifications structurelles ou technologiques recommandez-vous (par exemple, ajout d’un système d’authentification pour l’espace personnel ou d’une base de données relationnelle pour la communauté) ?
+Souhaitez-vous que je commence à implémenter une de ces améliorations (par exemple, les filtres par niveau d’impact 1-5 ou un espace personnel avec sauvegarde des métiers favoris) ?
+Ces informations me permettront d’identifier des optimisations et de planifier les prochaines étapes de développement. Merci d’avance pour votre retour !
