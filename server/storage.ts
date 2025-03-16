@@ -5,7 +5,11 @@ export interface IStorage {
   getJob(id: number): Promise<Job | undefined>;
   getTasksByJobId(jobId: number): Promise<Task[]>;
   getToolsByJobId(jobId: number): Promise<Tool[]>;
-  searchJobs(query: string): Promise<Job[]>;
+  searchJobs(options: {
+    query?: string;
+    impactLevel?: number;
+    domain?: string;
+  }): Promise<Job[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -34,6 +38,7 @@ export class MemStorage implements IStorage {
         impactLevel: 5,
         aiImpact: "L'IA transforme le développement via la génération de code, l'automatisation des tests et le débogage intelligent.",
         imageUrl: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=800&auto=format&fit=crop",
+        domain: "Tech",
       },
       {
         title: "Data Scientist",
@@ -41,6 +46,7 @@ export class MemStorage implements IStorage {
         impactLevel: 5,
         aiImpact: "L'IA augmente les capacités d'analyse et automatise le processus de modélisation.",
         imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop",
+        domain: "Tech",
       },
       {
         title: "Médecin",
@@ -48,6 +54,7 @@ export class MemStorage implements IStorage {
         impactLevel: 4,
         aiImpact: "L'IA aide au diagnostic, à l'analyse d'imagerie médicale et à la personnalisation des traitements.",
         imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop",
+        domain: "Santé",
       }
     ];
 
@@ -198,12 +205,30 @@ export class MemStorage implements IStorage {
     return this.tools.get(jobId) || [];
   }
 
-  async searchJobs(query: string): Promise<Job[]> {
-    const lowercaseQuery = query.toLowerCase();
-    return Array.from(this.jobs.values()).filter(job =>
-      job.title.toLowerCase().includes(lowercaseQuery) ||
-      job.description.toLowerCase().includes(lowercaseQuery)
-    );
+  async searchJobs(options: {
+    query?: string;
+    impactLevel?: number;
+    domain?: string;
+  }): Promise<Job[]> {
+    let jobs = Array.from(this.jobs.values());
+
+    if (options.query) {
+      const lowercaseQuery = options.query.toLowerCase();
+      jobs = jobs.filter(job =>
+        job.title.toLowerCase().includes(lowercaseQuery) ||
+        job.description.toLowerCase().includes(lowercaseQuery)
+      );
+    }
+
+    if (options.impactLevel) {
+      jobs = jobs.filter(job => job.impactLevel === options.impactLevel);
+    }
+
+    if (options.domain) {
+      jobs = jobs.filter(job => job.domain === options.domain);
+    }
+
+    return jobs;
   }
 }
 

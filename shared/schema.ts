@@ -9,6 +9,7 @@ export const jobs = pgTable("jobs", {
   impactLevel: integer("impact_level").notNull(), // 1-5 scale
   aiImpact: text("ai_impact").notNull(),
   imageUrl: text("image_url").notNull(),
+  domain: text("domain").notNull(), // Nouveau champ pour le domaine d'activité
 });
 
 export const tasks = pgTable("tasks", {
@@ -32,6 +33,7 @@ export const insertJobSchema = createInsertSchema(jobs).pick({
   impactLevel: true,
   aiImpact: true,
   imageUrl: true,
+  domain: true,
 });
 
 export const insertTaskSchema = createInsertSchema(tasks).pick({
@@ -53,3 +55,17 @@ export type Tool = typeof tools.$inferSelect;
 export type InsertJob = z.infer<typeof insertJobSchema>;
 export type InsertTask = z.infer<typeof insertTaskSchema>;
 export type InsertTool = z.infer<typeof insertToolSchema>;
+
+// Constantes pour les domaines d'activité
+export const DOMAINS = [
+  "Tech",
+  "Santé",
+  "Finance",
+  "Marketing",
+  "Éducation",
+  "Juridique",
+  "RH",
+  "Industrie",
+] as const;
+
+export type Domain = typeof DOMAINS[number];
