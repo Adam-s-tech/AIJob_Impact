@@ -25,6 +25,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(job);
   });
 
+  app.get("/api/jobs/:id/tasks", async (req, res) => {
+    const tasks = await storage.getTasksByJobId(parseInt(req.params.id));
+    res.json(tasks);
+  });
+
   app.get("/api/jobs/:id/tools", async (req, res) => {
     const tools = await storage.getToolsByJobId(parseInt(req.params.id));
     res.json(tools);

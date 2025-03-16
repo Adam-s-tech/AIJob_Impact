@@ -3,8 +3,8 @@ import { useParams } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { type Job, type Tool } from "@shared/schema";
-import { ExternalLink } from "lucide-react";
+import { type Job, type Tool, type Task } from "@shared/schema";
+import { ExternalLink, CheckCircle2 } from "lucide-react";
 
 export default function JobPage() {
   const { id } = useParams();
@@ -13,11 +13,15 @@ export default function JobPage() {
     queryKey: [`/api/jobs/${id}`],
   });
 
+  const { data: tasks, isLoading: isLoadingTasks } = useQuery<Task[]>({
+    queryKey: [`/api/jobs/${id}/tasks`],
+  });
+
   const { data: tools, isLoading: isLoadingTools } = useQuery<Tool[]>({
     queryKey: [`/api/jobs/${id}/tools`],
   });
 
-  if (isLoadingJob || isLoadingTools) {
+  if (isLoadingJob || isLoadingTasks || isLoadingTools) {
     return <div className="animate-pulse h-96 bg-muted rounded-lg" />;
   }
 
@@ -35,10 +39,10 @@ export default function JobPage() {
           </Badge>
         </div>
         <p className="text-lg text-muted-foreground mb-4">{job.description}</p>
-        
+
         <Card>
           <CardContent className="pt-6">
-            <h2 className="text-xl font-semibold mb-2">AI Impact</h2>
+            <h2 className="text-xl font-semibold mb-2">Impact de l'IA</h2>
             <p>{job.aiImpact}</p>
           </CardContent>
         </Card>
@@ -46,8 +50,29 @@ export default function JobPage() {
 
       <Separator className="my-8" />
 
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Tâches Principales</h2>
+        <div className="grid gap-4">
+          {tasks?.map((task) => (
+            <Card key={task.id}>
+              <CardContent className="pt-6">
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-violet-600 mt-1" />
+                  <div>
+                    <h3 className="text-lg font-semibold">{task.name}</h3>
+                    <p className="text-muted-foreground">{task.description}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      <Separator className="my-8" />
+
       <div>
-        <h2 className="text-2xl font-bold mb-4">Relevant AI Tools</h2>
+        <h2 className="text-2xl font-bold mb-4">Outils IA Pertinents</h2>
         <div className="grid gap-4">
           {tools?.map((tool) => (
             <Card key={tool.id}>
@@ -61,7 +86,7 @@ export default function JobPage() {
                     href={tool.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:text-primary/80"
+                    className="text-violet-600 hover:text-violet-700"
                   >
                     <ExternalLink className="h-5 w-5" />
                   </a>
