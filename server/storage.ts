@@ -1,22 +1,27 @@
-import { type Job, type Tool, type InsertJob, type InsertTool } from "@shared/schema";
+import { type Job, type Task, type Tool, type InsertJob, type InsertTask, type InsertTool } from "@shared/schema";
 
 export interface IStorage {
   getJobs(): Promise<Job[]>;
   getJob(id: number): Promise<Job | undefined>;
+  getTasksByJobId(jobId: number): Promise<Task[]>;
   getToolsByJobId(jobId: number): Promise<Tool[]>;
   searchJobs(query: string): Promise<Job[]>;
 }
 
 export class MemStorage implements IStorage {
   private jobs: Map<number, Job>;
+  private tasks: Map<number, Task[]>;
   private tools: Map<number, Tool[]>;
   private currentJobId: number;
+  private currentTaskId: number;
   private currentToolId: number;
 
   constructor() {
     this.jobs = new Map();
+    this.tasks = new Map();
     this.tools = new Map();
     this.currentJobId = 1;
+    this.currentTaskId = 1;
     this.currentToolId = 1;
     this.initializeData();
   }
@@ -40,58 +45,81 @@ export class MemStorage implements IStorage {
         description: "Diagnostique et traite les patients",
         impactLevel: 4,
         aiImpact: "L'IA aide au diagnostic, à l'analyse d'imagerie médicale et à la personnalisation des traitements.",
+      }
+    ];
+
+    const tasks: InsertTask[] = [
+      // Développeur logiciel
+      {
+        name: "Écriture de code",
+        description: "Rédaction et maintenance du code source",
+        jobId: 1
       },
       {
-        title: "Marketing Manager",
-        description: "Gère les stratégies marketing et les campagnes",
-        impactLevel: 4,
-        aiImpact: "L'IA optimise les campagnes, personnalise le contenu et analyse le comportement client.",
+        name: "Tests unitaires",
+        description: "Création et exécution de tests automatisés",
+        jobId: 1
       },
       {
-        title: "Avocat",
-        description: "Fournit des conseils juridiques et représente les clients",
-        impactLevel: 3,
-        aiImpact: "L'IA assiste dans la recherche juridique et l'analyse de documents.",
+        name: "Débogage",
+        description: "Identification et correction des bugs",
+        jobId: 1
+      },
+      // Data Scientist
+      {
+        name: "Préparation des données",
+        description: "Nettoyage et transformation des données",
+        jobId: 2
       },
       {
-        title: "Comptable",
-        description: "Gère la comptabilité et les rapports financiers",
-        impactLevel: 4,
-        aiImpact: "L'IA automatise les tâches comptables répétitives et améliore la détection des fraudes.",
+        name: "Modélisation",
+        description: "Création et entraînement de modèles ML",
+        jobId: 2
       },
       {
-        title: "Designer UX/UI",
-        description: "Conçoit des interfaces utilisateur et des expériences numériques",
-        impactLevel: 3,
-        aiImpact: "L'IA aide à la génération de designs et à l'optimisation des interfaces.",
+        name: "Visualisation",
+        description: "Création de visualisations de données",
+        jobId: 2
+      },
+      // Médecin
+      {
+        name: "Diagnostic",
+        description: "Évaluation des symptômes et diagnostic",
+        jobId: 3
       },
       {
-        title: "Enseignant",
-        description: "Éduque et forme les étudiants",
-        impactLevel: 3,
-        aiImpact: "L'IA personnalise l'apprentissage et automatise les tâches administratives.",
+        name: "Prescription",
+        description: "Prescription de traitements",
+        jobId: 3
       },
       {
-        title: "Journaliste",
-        description: "Recherche et rédige des articles d'actualité",
-        impactLevel: 4,
-        aiImpact: "L'IA aide à la recherche, à la vérification des faits et à la génération de contenu.",
-      },
-      {
-        title: "Commercial",
-        description: "Vend des produits et services aux clients",
-        impactLevel: 3,
-        aiImpact: "L'IA optimise la prospection et personnalise les approches commerciales.",
+        name: "Suivi patient",
+        description: "Suivi de l'évolution des patients",
+        jobId: 3
       }
     ];
 
     const tools: InsertTool[] = [
+      // Développeur logiciel
       {
         name: "GitHub Copilot",
-        description: "Assistant de programmation IA",
+        description: "Assistant de programmation IA pour la génération de code",
         url: "https://github.com/features/copilot",
         jobId: 1,
       },
+      {
+        name: "Amazon CodeWhisperer",
+        description: "Génération de code et suggestions intelligentes",
+        url: "https://aws.amazon.com/codewhisperer/",
+        jobId: 1,
+      },
+      {
+        name: "Tabnine",
+        description: "Complétion de code basée sur l'IA",
+        url: "https://www.tabnine.com/",
+        jobId: 1,
+      },
+      // Data Scientist
       {
         name: "TensorFlow",
         description: "Bibliothèque d'apprentissage automatique",
@@ -99,58 +127,48 @@ export class MemStorage implements IStorage {
         jobId: 2,
       },
       {
+        name: "AutoML",
+        description: "Automatisation de la création de modèles ML",
+        url: "https://cloud.google.com/automl",
+        jobId: 2,
+      },
+      {
+        name: "Dataiku",
+        description: "Plateforme de Data Science automatisée",
+        url: "https://www.dataiku.com",
+        jobId: 2,
+      },
+      // Médecin
+      {
         name: "IBM Watson Health",
         description: "IA pour le diagnostic médical",
         url: "https://www.ibm.com/watson-health",
         jobId: 3,
       },
       {
-        name: "HubSpot",
-        description: "Plateforme marketing avec IA intégrée",
-        url: "https://www.hubspot.com",
-        jobId: 4,
+        name: "Ada Health",
+        description: "Assistant diagnostic basé sur l'IA",
+        url: "https://ada.com",
+        jobId: 3,
       },
       {
-        name: "ROSS Intelligence",
-        description: "Assistant juridique IA",
-        url: "https://www.rossintelligence.com",
-        jobId: 5,
-      },
-      {
-        name: "QuickBooks AI",
-        description: "Automatisation comptable",
-        url: "https://quickbooks.intuit.com",
-        jobId: 6,
-      },
-      {
-        name: "Figma AI",
-        description: "Assistant de design IA",
-        url: "https://www.figma.com",
-        jobId: 7,
-      },
-      {
-        name: "Century Tech",
-        description: "Plateforme d'apprentissage adaptatif",
-        url: "https://www.century.tech",
-        jobId: 8,
-      },
-      {
-        name: "Automated Insights",
-        description: "Génération automatique d'articles",
-        url: "https://automatedinsights.com",
-        jobId: 9,
-      },
-      {
-        name: "Salesforce Einstein",
-        description: "IA pour la vente",
-        url: "https://www.salesforce.com/products/einstein/overview",
-        jobId: 10,
+        name: "Babylon Health",
+        description: "Plateforme de consultation et diagnostic IA",
+        url: "https://www.babylonhealth.com",
+        jobId: 3,
       }
     ];
 
     jobs.forEach(job => {
       const id = this.currentJobId++;
       this.jobs.set(id, { ...job, id });
+    });
+
+    tasks.forEach(task => {
+      const id = this.currentTaskId++;
+      const task_list = this.tasks.get(task.jobId) || [];
+      task_list.push({ ...task, id });
+      this.tasks.set(task.jobId, task_list);
     });
 
     tools.forEach(tool => {
@@ -167,6 +185,10 @@ export class MemStorage implements IStorage {
 
   async getJob(id: number): Promise<Job | undefined> {
     return this.jobs.get(id);
+  }
+
+  async getTasksByJobId(jobId: number): Promise<Task[]> {
+    return this.tasks.get(jobId) || [];
   }
 
   async getToolsByJobId(jobId: number): Promise<Tool[]> {
