@@ -1,0 +1,22 @@
+Demande d’informations complémentaires sur l’erreur rencontrée
+
+Bonjour,
+
+Merci pour les progrès réalisés sur le site "Next Gen AI". Je constate qu’une erreur est survenue lors de l’ajout des filtres avancés (niveau d’impact et domaine), comme indiqué dans la capture d’écran fournie. Pour mieux comprendre et résoudre ce problème, pourriez-vous me fournir les informations suivantes :
+
+Détails de l’erreur :
+Pouvez-vous partager le message d’erreur exact ou les logs associés à ce problème ? Cela pourrait indiquer si l’erreur est liée à une valeur manquante, un problème de rendu, ou une autre cause.
+L’erreur se produit-elle uniquement lors de l’utilisation des filtres ou également lors du chargement de la page des métiers ?
+Données concernées :
+Lors de l’ajout des filtres, avez-vous vérifié si tous les métiers importés depuis "theresanaiforthat.com/job-impact/" ont bien un niveau d’impact (1-5) et un domaine d’activité défini ? Si certains métiers n’ont pas ces informations, cela pourrait expliquer l’erreur liée aux valeurs nulles.
+Pouvez-vous fournir un exemple de données pour un métier qui pose problème (par exemple, un métier sans niveau d’impact ou domaine) ?
+Comportement des filtres :
+Avant l’erreur, les filtres par niveau d’impact et par domaine étaient-ils visibles sur la page, même partiellement ? Si oui, à quoi ressemblaient-ils (par exemple, une liste déroulante, des cases à cocher) ?
+Après votre correction (Handle null impact level in job filters component), les filtres fonctionnent-ils pour certains métiers, ou l’erreur persiste-t-elle pour tous ?
+Lien avec les images :
+L’icône générique affichée dans la capture d’écran semble représenter un fichier ou une image. Est-ce que cette icône est liée à un élément spécifique des filtres (par exemple, une icône pour un domaine ou un niveau d’impact) ? Si oui, pourriez-vous préciser quel fichier ou quelle ressource l’agent a tenté d’afficher ?
+Les images ajoutées précédemment pour chaque métier (qui fonctionnaient correctement) sont-elles toujours bien affichées, ou l’erreur a-t-elle également affecté d’autres parties du site ?
+Contexte technique :
+Pouvez-vous confirmer les technologies utilisées pour les filtres (par exemple, React avec un composant spécifique, une bibliothèque de filtres comme Material-UI) ? Cela pourrait aider à identifier la source du problème.
+Avez-vous rencontré des limitations de ressources (par exemple, mémoire ou bande passante) sur la plateforme Replit qui pourraient avoir contribué à cette erreur ?
+Ces informations me permettront d’analyser plus précisément la cause de l’erreur et de proposer une solution adaptée. Merci d’avance pour votre collaboration !
