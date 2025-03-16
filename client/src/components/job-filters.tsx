@@ -47,7 +47,7 @@ export default function JobFilters({
                 <SelectValue placeholder="Sélectionner un domaine" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tous les domaines</SelectItem>
+                <SelectItem value="all">Tous les domaines</SelectItem>
                 {DOMAINS.map((domain) => (
                   <SelectItem key={domain} value={domain}>
                     {domain}

@@ -11,16 +11,16 @@ export default function Jobs() {
   const params = new URLSearchParams(location.split("?")[1] || "");
   const initialQuery = params.get("q") || "";
   const [searchQuery, setSearchQuery] = useState(initialQuery);
-  const [impactLevel, setImpactLevel] = useState<number>(1);
-  const [domain, setDomain] = useState("");
+  const [impactLevel, setImpactLevel] = useState<number | null>(null);
+  const [domain, setDomain] = useState("all");
 
   const { data: jobs, isLoading } = useQuery<Job[]>({
     queryKey: ["/api/jobs/search", searchQuery, impactLevel, domain],
     queryFn: async () => {
       const params = new URLSearchParams();
       if (searchQuery) params.append("q", searchQuery);
-      if (impactLevel > 0) params.append("impact", impactLevel.toString());
-      if (domain) params.append("domain", domain);
+      if (impactLevel) params.append("impact", impactLevel.toString());
+      if (domain && domain !== "all") params.append("domain", domain);
 
       const url = `/api/jobs/search${params.toString() ? `?${params.toString()}` : ""}`;
       const response = await fetch(url);
