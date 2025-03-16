@@ -55,8 +55,69 @@ export class MemStorage implements IStorage {
         aiImpact: "L'IA aide au diagnostic, à l'analyse d'imagerie médicale et à la personnalisation des traitements.",
         imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop",
         domain: "Santé",
+      },
+      {
+        title: "Fleuriste",
+        description: "Crée et vend des compositions florales",
+        impactLevel: 1,
+        aiImpact: "L'IA a un impact minimal, principalement sur la gestion des stocks et la comptabilité.",
+        imageUrl: "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&auto=format&fit=crop",
+        domain: "Commerce",
+      },
+      {
+        title: "Plombier",
+        description: "Installe et répare les systèmes de plomberie",
+        impactLevel: 2,
+        aiImpact: "L'IA assiste principalement dans la planification des interventions et l'estimation des coûts.",
+        imageUrl: "https://images.unsplash.com/photo-1573093497967-9eb44a6981a7?w=800&auto=format&fit=crop",
+        domain: "Industrie",
+      },
+      {
+        title: "Chef Cuisinier",
+        description: "Prépare et supervise la préparation des plats",
+        impactLevel: 2,
+        aiImpact: "L'IA aide à la gestion des stocks et à la création de nouvelles recettes.",
+        imageUrl: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&auto=format&fit=crop",
+        domain: "Restauration",
+      },
+      {
+        title: "Avocat en Propriété Intellectuelle",
+        description: "Spécialiste du droit de la propriété intellectuelle",
+        impactLevel: 4,
+        aiImpact: "L'IA révolutionne la recherche juridique et l'analyse des brevets.",
+        imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&auto=format&fit=crop",
+        domain: "Juridique",
+      },
+      {
+        title: "Professeur",
+        description: "Enseigne et forme les étudiants",
+        impactLevel: 3,
+        aiImpact: "L'IA transforme les méthodes d'enseignement et le suivi des élèves.",
+        imageUrl: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&auto=format&fit=crop",
+        domain: "Éducation",
+      },
+      {
+        title: "Jardinier",
+        description: "Entretient les espaces verts et les jardins",
+        impactLevel: 1,
+        aiImpact: "L'IA a un impact minimal, principalement dans la planification et la gestion des ressources.",
+        imageUrl: "https://images.unsplash.com/photo-1599629954205-5dd2e3995122?w=800&auto=format&fit=crop",
+        domain: "Agriculture",
+      },
+      {
+        title: "Architecte IA",
+        description: "Conçoit et implémente des solutions d'intelligence artificielle",
+        impactLevel: 5,
+        aiImpact: "Au cœur de la révolution IA, définit et développe les systèmes d'IA de demain.",
+        imageUrl: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&auto=format&fit=crop",
+        domain: "Tech",
       }
     ];
+
+    jobs.forEach(job => {
+      const id = this.currentJobId++;
+      this.jobs.set(id, { ...job, id });
+    });
 
     const tasks: InsertTask[] = [
       // Développeur logiciel
@@ -108,6 +169,13 @@ export class MemStorage implements IStorage {
         jobId: 3
       }
     ];
+
+    tasks.forEach(task => {
+      const id = this.currentTaskId++;
+      const task_list = this.tasks.get(task.jobId) || [];
+      task_list.push({ ...task, id });
+      this.tasks.set(task.jobId, task_list);
+    });
 
     const tools: InsertTool[] = [
       // Développeur logiciel
@@ -168,18 +236,6 @@ export class MemStorage implements IStorage {
         jobId: 3,
       }
     ];
-
-    jobs.forEach(job => {
-      const id = this.currentJobId++;
-      this.jobs.set(id, { ...job, id });
-    });
-
-    tasks.forEach(task => {
-      const id = this.currentTaskId++;
-      const task_list = this.tasks.get(task.jobId) || [];
-      task_list.push({ ...task, id });
-      this.tasks.set(task.jobId, task_list);
-    });
 
     tools.forEach(tool => {
       const id = this.currentToolId++;
