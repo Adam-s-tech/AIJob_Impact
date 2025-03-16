@@ -38,6 +38,15 @@ export default function JobPage() {
             Impact Level {job.impactLevel}
           </Badge>
         </div>
+
+        <div className="aspect-video w-full rounded-lg overflow-hidden mb-6">
+          <img 
+            src={job.imageUrl} 
+            alt={job.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+
         <p className="text-lg text-muted-foreground mb-4">{job.description}</p>
 
         <Card>

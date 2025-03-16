@@ -33,18 +33,21 @@ export class MemStorage implements IStorage {
         description: "Développe et maintient des applications logicielles",
         impactLevel: 5,
         aiImpact: "L'IA transforme le développement via la génération de code, l'automatisation des tests et le débogage intelligent.",
+        imageUrl: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=800&auto=format&fit=crop",
       },
       {
         title: "Data Scientist",
         description: "Analyse des données complexes pour en extraire des insights",
         impactLevel: 5,
         aiImpact: "L'IA augmente les capacités d'analyse et automatise le processus de modélisation.",
+        imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop",
       },
       {
         title: "Médecin",
         description: "Diagnostique et traite les patients",
         impactLevel: 4,
         aiImpact: "L'IA aide au diagnostic, à l'analyse d'imagerie médicale et à la personnalisation des traitements.",
+        imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop",
       }
     ];
 

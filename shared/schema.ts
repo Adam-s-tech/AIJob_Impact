@@ -8,6 +8,7 @@ export const jobs = pgTable("jobs", {
   description: text("description").notNull(),
   impactLevel: integer("impact_level").notNull(), // 1-5 scale
   aiImpact: text("ai_impact").notNull(),
+  imageUrl: text("image_url").notNull(),
 });
 
 export const tasks = pgTable("tasks", {
@@ -30,6 +31,7 @@ export const insertJobSchema = createInsertSchema(jobs).pick({
   description: true,
   impactLevel: true,
   aiImpact: true,
+  imageUrl: true,
 });
 
 export const insertTaskSchema = createInsertSchema(tasks).pick({
