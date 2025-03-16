@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DOMAINS } from "@shared/schema";
 
 interface JobFiltersProps {
-  impactLevel: number;
+  impactLevel: number | null;
   domain: string;
   onImpactLevelChange: (value: number) => void;
   onDomainChange: (value: string) => void;
@@ -22,10 +22,10 @@ export default function JobFilters({
         <div className="space-y-4">
           <div>
             <label className="text-sm font-medium mb-2 block">
-              Niveau d'impact de l'IA (1-5)
+              Niveau d'impact de l'IA
             </label>
             <Slider
-              value={[impactLevel]}
+              value={[impactLevel || 1]}
               onValueChange={([value]) => onImpactLevelChange(value)}
               min={1}
               max={5}

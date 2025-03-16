@@ -11,7 +11,7 @@ export default function Jobs() {
   const params = new URLSearchParams(location.split("?")[1] || "");
   const initialQuery = params.get("q") || "";
   const [searchQuery, setSearchQuery] = useState(initialQuery);
-  const [impactLevel, setImpactLevel] = useState<number>(0);
+  const [impactLevel, setImpactLevel] = useState<number>(1);
   const [domain, setDomain] = useState("");
 
   const { data: jobs, isLoading } = useQuery<Job[]>({
