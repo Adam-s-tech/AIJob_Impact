@@ -19,7 +19,7 @@ export default function Jobs() {
     queryFn: async () => {
       const params = new URLSearchParams();
       if (searchQuery) params.append("q", searchQuery);
-      if (impactLevel) params.append("impact", impactLevel.toString());
+      if (impactLevel !== null) params.append("impact", impactLevel.toString());
       if (domain && domain !== "all") params.append("domain", domain);
 
       const url = `/api/jobs/search${params.toString() ? `?${params.toString()}` : ""}`;

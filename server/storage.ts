@@ -224,7 +224,7 @@ export class MemStorage implements IStorage {
       jobs = jobs.filter(job => job.impactLevel === options.impactLevel);
     }
 
-    if (options.domain) {
+    if (options.domain && options.domain !== "all") {
       jobs = jobs.filter(job => job.domain === options.domain);
     }
 
