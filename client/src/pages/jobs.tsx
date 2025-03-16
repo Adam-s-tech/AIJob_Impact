@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import Search from "@/components/search";
 import JobCard from "@/components/job-card";
+import JobFilters from "@/components/job-filters";
 import { type Job } from "@shared/schema";
 
 export default function Jobs() {
@@ -10,11 +11,18 @@ export default function Jobs() {
   const params = new URLSearchParams(location.split("?")[1] || "");
   const initialQuery = params.get("q") || "";
   const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [impactLevel, setImpactLevel] = useState<number>(0);
+  const [domain, setDomain] = useState("");
 
   const { data: jobs, isLoading } = useQuery<Job[]>({
-    queryKey: ["/api/jobs/search", searchQuery],
+    queryKey: ["/api/jobs/search", searchQuery, impactLevel, domain],
     queryFn: async () => {
-      const url = `/api/jobs/search${searchQuery ? `?q=${encodeURIComponent(searchQuery)}` : ""}`;
+      const params = new URLSearchParams();
+      if (searchQuery) params.append("q", searchQuery);
+      if (impactLevel > 0) params.append("impact", impactLevel.toString());
+      if (domain) params.append("domain", domain);
+
+      const url = `/api/jobs/search${params.toString() ? `?${params.toString()}` : ""}`;
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch jobs");
       return response.json();
@@ -26,6 +34,13 @@ export default function Jobs() {
       <div className="max-w-xl mx-auto mb-8">
         <Search value={searchQuery} onChange={setSearchQuery} />
       </div>
+
+      <JobFilters
+        impactLevel={impactLevel}
+        domain={domain}
+        onImpactLevelChange={setImpactLevel}
+        onDomainChange={setDomain}
+      />
 
       {isLoading ? (
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">

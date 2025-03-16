@@ -10,10 +10,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/jobs/search", async (req, res) => {
     const query = req.query.q as string;
-    if (!query) {
-      return res.json(await storage.getJobs());
-    }
-    const jobs = await storage.searchJobs(query);
+    const impactLevel = req.query.impact ? parseInt(req.query.impact as string) : undefined;
+    const domain = req.query.domain as string;
+
+    const jobs = await storage.searchJobs({ query, impactLevel, domain });
     res.json(jobs);
   });
 
